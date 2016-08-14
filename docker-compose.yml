@@ -1,0 +1,15 @@
+rabbit:
+  image: rabbitmq:3.5.6-management
+  ports:
+    - "$RABBIT_PORT:5672"
+    - "$RABBIT_MANAGEMENT_PORT:15672"
+  environment:
+    - "RABBITMQ_DEFAULT_USER=$RABBIT_USER"
+    - "RABBITMQ_DEFAULT_PASS=$RABBIT_PASSWORD"
+    - "RABBITMQ_DEFAULT_VHOST=$RABBIT_VHOST"
+    
+etcd:
+  image: quay.io/coreos/etcd:v2.2.2
+  ports:
+    - "$ETCD_PORT:2379"
+  command: -advertise-client-urls=http://0.0.0.0:2379 -listen-client-urls=http://0.0.0.0:2379

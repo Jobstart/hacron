@@ -1,0 +1,11 @@
+node_modules
+src
+test
+.git
+.babelrc
+.editorconfig
+.eslintrc
+.gitignore
+circle.yml
+dev.js
+*.md
