@@ -5,25 +5,22 @@ SHELL := /bin/bash
 
 all: .FORCE
 	babel src -d lib
+	npm shrinkwrap --production
+	docker build -t jobstartinc/hacron:$(tag) .
 
 clean:
 	rimraf lib
 
-unit: .FORCE
-	mocha test/unit
-
-integration: .FORCE
+test: .FORCE
 	docker-compose up -d
-	mocha test/integration
+	docker-compose scale hacron=3
+	mocha
 	docker-compose stop || echo 'failed to bring down containers'
 	docker-compose rm -f || echo 'failed to remove containers'
 
 lint: .FORCE
 	eslint src
 	eslint test
-
-image:
-	docker build -t jobstartinc/hacron$(tag) .
 
 publish: .FORCE
 	docker push jobstartinc/hacron:$(tag)

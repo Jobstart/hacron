@@ -6,12 +6,10 @@ machine:
 test:
   override:
     - make lint
-    - make unit
-    - make
-    - make integration
+    - make tag=$CIRCLE_SHA1
+    - make test
 deployment:
   production:
     branch: master
     commands:
-      - make image tag=$CIRCLE_SHA1
       - make publish tag=$CIRCLE_SHA1

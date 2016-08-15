@@ -37,6 +37,8 @@
     "microlock": "^1.0.2",
     "node-etcd": "^5.0.3",
     "source-map-support": "^0.4.2",
+    "supertest": "^2.0.0",
+    "supertest-as-promised": "^4.0.0",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
