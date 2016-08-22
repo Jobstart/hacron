@@ -15,4 +15,5 @@ deployment:
   production:
     branch: master
     commands:
-      - make publish tag=$CIRCLE_SHA1
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push jobstartinc/hacron:$CIRCLE_SHA1
