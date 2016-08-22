@@ -7,7 +7,10 @@ test:
   override:
     - make lint
     - make tag=$CIRCLE_SHA1
+    - docker-compose up -d
     - make test
+    - docker-compose stop || echo 'failed to bring down containers'
+    - docker-compose rm -f || echo 'failed to remove containers'
 deployment:
   production:
     branch: master

@@ -30,8 +30,8 @@ async function onTick (publish) {
     log('won race for lock');
     log(`publishing tick ${d.toISOString()}`);
 
-    await publish('hacron.tick', {
-      _id: uuid.v4().replace(/\W/g, ''),
+    await publish({
+      id: uuid.v4().replace(/\W/g, ''),
       minute: d.getMinutes(),
       hour: d.getHours(),
       day_of_month: d.getDate(),
@@ -39,12 +39,14 @@ async function onTick (publish) {
       month: d.getMonth(),
       year: d.getFullYear(),
       iso: d.toISOString(),
+      timestamp: d.getTime(),
       timezone_offset: d.getTimezoneOffset()
     });
   } catch (e) {
     if (e instanceof AlreadyLockedError) {
       log('lost race for lock');
     } else {
+      console.trace(e);
       throw e;
     }
   }
@@ -60,7 +62,7 @@ async function main () {
 
   const tick = new CronJob({
     cronTime,
-    onTick,
+    onTick: () => onTick(publish),
     start
   });
 

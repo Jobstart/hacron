@@ -21,8 +21,12 @@ function handleConnectionError (e) {
   process.exit(1);
 }
 
-function objectToBuffer (obj) {
+export function objectToBuffer (obj) {
   return new Buffer(JSON.stringify(obj), 'utf8');
+}
+
+export function bufferToObject (buffer) {
+  return JSON.parse(buffer.toString('utf8'));
 }
 
 export default async function connect () {
@@ -44,7 +48,15 @@ export default async function connect () {
     });
     log(`amqp exchange ${EXCHANGE_NAME} asserted`);
 
-    return (data) => channel.publish(EXCHANGE_NAME, '', objectToBuffer(data));
+    return (data) => channel.publish(EXCHANGE_NAME, 'hacron.tick', objectToBuffer(data), {
+      expiration: '30000', //expire after 30 seconds
+      contentType: 'application/json',
+      contentEncoding: 'utf8',
+      timestamp: data.timestamp,
+      messageId: data.id,
+      type: 'tick',
+      appId: 'jobstartinc/hacron'
+    });
   } catch (e) {
     handleConnectionError(e);
   }
