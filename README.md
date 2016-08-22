@@ -1,14 +1,18 @@
 # HACron
-HACron is a highly available distributed system clock that is useful for trigger background jobs such as ETL, scraping, bill processing, and so forth.  Rather than installing Cron on every VM or Docker image, the developer can instead subscribe to timer events through the already familiar AMQP protocol and use these to trigger background jobs.  This results in less ops overhead and less overall systems maintenance.
+
+[![Docker](http://dockeri.co/image/jobstartinc/hacron)](https://hub.docker.com/r/jobstartinc/hacron/)
+
+[![CircleCI](https://circleci.com/gh/Jobstart/hacron.svg?style=shield)](https://circleci.com/gh/Jobstart/hacron/tree/master)
+
+### What is HACron
+HACron is a highly available distributed system clock that is useful for trigger background jobs such as ETL, scraping, bill processing, and so forth.  Rather than installing Cron on every VM or Docker image, the developer can instead subscribe to timer events through the already familiar AMQP protocol and use these to trigger background jobs.  This results in less overall ops overhead and systems maintenance.
 
 ### Why HACron
-
 HACron was designed with simplicity in mind.  The only required configuration options are an [AMQP](https://www.amqp.org/) connection string (ie, RabbitMQ) and a set of [Etcd](https://github.com/coreos/etcd) connection strings, along with optional SSL cert paths for both. You can set it up in minutes, and it scales seamlessly to provide high availability so that you never miss an interval.
 
 HACron utilizes distributed locking via Etcd and the [Microlock](https://github.com/Jobstart/microlock) library to achieve high availability.  You can run as many instances of HACron as you want, and all instances will race to acquire a lock on every tick.  The first instance to acquire a lock will dispatch a message via AMQP.
 
 ### Using HACron
-
 HACron was designed to run in a [Docker](https://github.com/docker/docker) container.  Support for manually running HACron is not currently available but may be added near-term.
 
 **It is recommended that you run at least 3 instances of HACron** to achieve high availability in a production environment.
@@ -36,7 +40,6 @@ docker run -d \
 ```
 
 #### Health checks
-
 HACron exposes a monitor endpoint to check memory and CPU stats:
 
 ```curl
@@ -47,7 +50,6 @@ The port for the REST API can be configured via the `MONITOR_PORT` environment v
 
 
 ### Tick message interface
-
 Each "tick" message will apply the following interface:
 ```json
 {
@@ -65,7 +67,6 @@ Each "tick" message will apply the following interface:
 ```
 
 ### All configuration options
-
 All configuration is handled via environment variables
 
 `MONITOR_PORT` - Port to expose RESTful API.  (default *`8080`*)
@@ -84,11 +85,9 @@ HACron will look for SSL certs on boot at `/opt/ssl` by name of `etcd.pem` and `
 
 
 ### Examples
-
 *Coming soon*
 
 ### Development tools
-
 ```bash
 # Lint
 make lint
