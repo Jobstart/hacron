@@ -31,7 +31,7 @@ docker run -d \
   -e "AMQP_URL=amqp://path.to.rabbit//" \
   -e "ETCD_URLS=http://path.to.etcd1,http://path.to.etcd2" \
   -e "MONITOR_PORT=8080" \
-  -v /my/local/ssl/directory:/opt/ssl
+  -v /my/local/ssl/directory:/opt/ssl \
   jobstartinc/hacron
 ```
 
