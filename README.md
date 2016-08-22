@@ -45,6 +45,25 @@ curl http://localhost:8080/monitor
 
 The port for the REST API can be configured via the `MONITOR_PORT` environment variable
 
+
+### Tick message interface
+
+Each "tick" message will apply the following interface:
+```json
+{
+  "id": "String",
+  "minute": "Number",
+  "hour": "Number",
+  "day_of_month": "Number",
+  "day_of_week": "Number",
+  "month": "Number",
+  "year": "Number",
+  "iso": "String",
+  "timestamp": "Number",
+  "timezone_offset": "String"
+}
+```
+
 ### All configuration options
 
 All configuration is handled via environment variables
