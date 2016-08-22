@@ -1,5 +1,5 @@
 hacron:
-  image: jobstartinc/hacron:test
+  image: jobstartinc/hacron:$CIRCLE_SHA1
   links:
     - rabbit
     - etcd
