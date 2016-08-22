@@ -2,14 +2,13 @@ import 'source-map-support/register';
 
 import { CronJob } from 'cron';
 import express from 'express';
-import debug from 'debug';
 import uuid from 'uuid';
 
 import { AlreadyLockedError } from 'microlock';
 
+import logger from './logger';
 import connect from './amqp';
 import lock from './lock';
-
 import stats from './stats';
 
 import {
@@ -17,18 +16,16 @@ import {
   CRON_TIME
 } from './environment';
 
-const log = debug('hacron:index');
-
 async function onTick (publish) {
   try {
     const d = new Date();
 
-    log('attemping race for lock');
+    logger.info('attemping race for lock');
 
     await lock.lock();
 
-    log('won race for lock');
-    log(`publishing tick ${d.toISOString()}`);
+    logger.info('won race for lock');
+    logger.info(`publishing tick ${d.toISOString()}`);
 
     await publish({
       id: uuid.v4().replace(/\W/g, ''),
@@ -44,7 +41,7 @@ async function onTick (publish) {
     });
   } catch (e) {
     if (e instanceof AlreadyLockedError) {
-      log('lost race for lock');
+      logger.info('lost race for lock');
     } else {
       console.trace(e);
       throw e;
@@ -55,7 +52,7 @@ async function onTick (publish) {
 async function main () {
   const publish = await connect();
 
-  log(`running on cron time ${CRON_TIME}`);
+  logger.info(`running on cron time ${CRON_TIME}`);
 
   const cronTime = CRON_TIME;
   const start = true;
@@ -69,13 +66,13 @@ async function main () {
   const app = express();
 
   app.get('/monitor', (req, res) => {
-    log('handling request for stats');
+    logger.info('handling request for stats');
     res.status(200).send(stats());
   });
 
   app.listen(MONITOR_PORT);
 
-  log(`monitor listening on port ${MONITOR_PORT}`);
+  logger.info(`monitor listening on port ${MONITOR_PORT}`);
 }
 
 main().catch((e) => {

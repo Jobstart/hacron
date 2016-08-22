@@ -1,6 +1,6 @@
 import amqplib from 'amqplib';
-import debug from 'debug';
 
+import logger from './logger';
 import { amqp } from './ssl';
 
 import {
@@ -9,14 +9,12 @@ import {
   EXCHANGE_DURABLE
 } from './environment';
 
-const log = debug('hacron:amqp');
-
 const opts = amqp ? {
   ca: amqp
 } : {};
 
 function handleConnectionError (e) {
-  log('amqp connection error');
+  logger.info('amqp connection error');
   console.trace(e);
   process.exit(1);
 }
@@ -31,22 +29,22 @@ export function bufferToObject (buffer) {
 
 export default async function connect () {
   try {
-    log('creating amqp connection');
+    logger.info('creating amqp connection');
     const connection = await amqplib.connect(AMQP_URL, opts);
-    log('amqp connection established');
+    logger.info('amqp connection established');
 
     connection.on('close', () => handleConnectionError(new Error('amqp connection closed')));
     connection.on('error', (e) => handleConnectionError(e));
 
-    log('creating amqp channel');
+    logger.info('creating amqp channel');
     const channel = await connection.createChannel();
-    log('amqp channel created');
+    logger.info('amqp channel created');
 
-    log(`asserting amqp exchange ${EXCHANGE_NAME}${EXCHANGE_DURABLE ? ' as durable exchange' : ''}`);
+    logger.info(`asserting amqp exchange ${EXCHANGE_NAME}${EXCHANGE_DURABLE ? ' as durable exchange' : ''}`);
     await channel.assertExchange(EXCHANGE_NAME, 'fanout', {
       durable: EXCHANGE_DURABLE
     });
-    log(`amqp exchange ${EXCHANGE_NAME} asserted`);
+    logger.info(`amqp exchange ${EXCHANGE_NAME} asserted`);
 
     return (data) => channel.publish(EXCHANGE_NAME, 'hacron.tick', objectToBuffer(data), {
       expiration: '30000', //expire after 30 seconds

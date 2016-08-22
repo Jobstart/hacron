@@ -10,7 +10,6 @@ hacron:
     - ETCD_URLS=http://etcd:2379
     - MONITOR_PORT=$MONITOR_PORT
     - EXCHANGE_NAME=$EXCHANGE_NAME
-    - DEBUG=hacron:*
 
 rabbit:
   image: rabbitmq:3.5.6-management
