@@ -3,6 +3,22 @@ machine:
     version: 4.4.2
   services:
     - docker
+  environment:
+    MONITOR_PORT: 8080
+    RABBIT_PROTOCOL: amqp
+    RABBIT_HOST: localhost
+    RABBIT_PORT: 5673
+    RABBIT_MANAGEMENT_PORT: 15673
+    RABBIT_USER: guest
+    RABBIT_PASSWORD: guest
+    RABBIT_VHOST: /
+    RABBITMQ_DEFAULT_PASS: guest
+    RABBITMQ_DEFAULT_USER: guest
+    RABBITMQ_DEFAULT_VHOST: /
+    AMQP_URL: amqp://guest:guest@localhost:5673//
+    EXCHANGE_NAME: hacron
+    ETCD_PORT: 2380
+    ETCD_URLS: http://localhost:2380
 test:
   override:
     - make lint
