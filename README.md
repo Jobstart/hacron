@@ -5,7 +5,7 @@
 [![CircleCI](https://circleci.com/gh/Jobstart/hacron.svg?style=shield)](https://circleci.com/gh/Jobstart/hacron/tree/master)
 
 ### What is HACron
-HACron is a highly available distributed system clock that is useful for trigger background jobs such as ETL, scraping, bill processing, and so forth.  Rather than installing Cron on every VM or Docker image, the developer can instead subscribe to timer events through the already familiar AMQP protocol and use these to trigger background jobs.  This results in less overall ops overhead and systems maintenance.
+HACron is a highly available distributed system clock that is useful for triggering background jobs such as ETL, scraping, bill processing, and so forth.  Rather than installing Cron on every VM or Docker image, the developer can instead subscribe to timer events through the already familiar AMQP protocol and use these to trigger background jobs.  This results in less overall ops overhead and systems maintenance.
 
 ### Why HACron
 HACron was designed with simplicity in mind.  The only required configuration options are an [AMQP](https://www.amqp.org/) connection string (ie, RabbitMQ) and a set of [Etcd](https://github.com/coreos/etcd) connection strings, along with optional SSL cert paths for both. You can set it up in minutes, and it scales seamlessly to provide high availability so that you never miss an interval.
