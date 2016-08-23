@@ -8,10 +8,14 @@ import {
   bufferToObject
 } from '../src/amqp';
 
+import {
+  EXCHANGE_DURABLE,
+  EXCHANGE_NAME,
+  AMQP_URL
+} from '../src/environment';
+
 import request from 'supertest-as-promised';
 
-const AMQP_URL = process.env.AMQP_URL;
-const EXCHANGE_NAME = process.env.EXCHANGE_NAME;
 const QUEUE_NAME = 'hacron_test';
 
 describe('hacron', () => {
@@ -21,7 +25,12 @@ describe('hacron', () => {
     const connection = await amqplib.connect(AMQP_URL);
     channel = await connection.createChannel();
 
+    await channel.assertExchange(EXCHANGE_NAME, 'fanout', {
+      durable: EXCHANGE_DURABLE
+    });
+
     await channel.assertQueue(QUEUE_NAME);
+    
     await channel.bindQueue(QUEUE_NAME, EXCHANGE_NAME, 'hacron.tick');
 
     emitter = new EventEmitter();
