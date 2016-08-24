@@ -24,6 +24,7 @@ test:
     - make lint
     - make tag=$CIRCLE_SHA1
     - docker-compose up -d
+    - curl --retry 10 --retry-delay 5 -v "http://localhost:$MONITOR_PORT"
     - make test
     - docker-compose stop || echo 'failed to bring down containers'
     - docker-compose rm -f || echo 'failed to remove containers'
