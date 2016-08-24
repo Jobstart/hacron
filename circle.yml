@@ -21,7 +21,6 @@ machine:
     ETCD_URLS: "http://localhost:2380"
 test:
   override:
-    - make lint
     - make tag=$CIRCLE_SHA1
     - docker-compose up -d
     - sleep 5
