@@ -7,3 +7,5 @@ export const EXCHANGE_NAME: string = process.env.EXCHANGE_NAME || 'hacron';
 export const LOCK_KEY: string = process.env.LOCK_KEY || '/locks/hacron';
 export const CRON_TIME: string = process.env.CRON_TIME || '*/1 * * * *'; //every minute
 export const EXCHANGE_DURABLE: boolean = process.env.EXCHANGE_DURABLE !== undefined;
+export const AMQP_PEM: ?string = process.env.AMQP_PEM || null;
+export const ETCD_PEM: ?string = process.env.ETCD_PEM || null;
