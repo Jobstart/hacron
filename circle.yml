@@ -23,7 +23,8 @@ test:
   override:
     - make lint
     - make tag=$CIRCLE_SHA1
-    - docker-compose up
+    - docker-compose up -d
+    - docker ps
     - sleep 10
     - curl "http://localhost:$MONITOR_PORT/monitor"
     - make test
