@@ -4,6 +4,7 @@ SHELL := /bin/bash
 .FORCE:
 
 all: clean .FORCE
+	eslint src
 	flow check
 	babel src -d lib
 	npm shrinkwrap --production
@@ -13,14 +14,8 @@ clean: .FORCE
 	rimraf lib
 
 test: .FORCE
-	DEBUG=hacron:test:* mocha
-
-lint: .FORCE
-	eslint src
 	eslint test
-
-publish: .FORCE
-	docker push jobstartinc/hacron:$(tag)
+	DEBUG=hacron:test:* mocha
 
 development: .FORCE
 	nodemon ./dev.js
