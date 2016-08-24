@@ -24,10 +24,11 @@ test:
     - make tag=$CIRCLE_SHA1
     - docker-compose up -d
     - sleep 5
-    - docker run -d -e "AMQP_URL=amqp://rabbit:5672//" -e "ETCD_URLS=http://etcd:2379" -e "MONITOR_PORT=$MONITOR_PORT" -e "EXCHANGE_NAME=$EXCHANGE_NAME" -p $MONITOR_PORT:$MONITOR_PORT --link hacron_rabbit_1:rabbit --link hacron_etcd_1:etcd jobstartinc/hacron:$CIRCLE_SHA1
+    - CONTAINER=$(docker run -d -e "AMQP_URL=amqp://rabbit:5672//" -e "ETCD_URLS=http://etcd:2379" -e "MONITOR_PORT=$MONITOR_PORT" -e "EXCHANGE_NAME=$EXCHANGE_NAME" -p $MONITOR_PORT:$MONITOR_PORT --link hacron_rabbit_1:rabbit --link hacron_etcd_1:etcd jobstartinc/hacron:$CIRCLE_SHA1)
     - sleep 5
     - curl "http://localhost:$MONITOR_PORT/monitor"
     - make test
+    - docker stop $CONTAINER
     - docker-compose stop || echo 'failed to bring down containers'
     - docker-compose rm -f || echo 'failed to remove containers'
 deployment:
