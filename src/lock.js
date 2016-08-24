@@ -1,3 +1,5 @@
+// @flow
+
 import { hostname } from 'os';
 import Microlock from 'microlock';
 
@@ -7,9 +9,9 @@ import {
 
 import etcd from './etcd';
 
-const id = hostname();
-const ttl = 10;
+const id: string = hostname();
+const ttl: number = 10;
 
-const lock = new Microlock(etcd, LOCK_KEY, id, ttl);
+const lock: Microlock = new Microlock(etcd, LOCK_KEY, id, ttl);
 
 export default lock;

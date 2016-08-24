@@ -1,4 +1,6 @@
-export default function get () {
+// @flow
+
+export default function get (): Object {
   let stats = {
     cpu: {},
     memory: {}

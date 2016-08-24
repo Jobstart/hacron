@@ -77,6 +77,8 @@ All configuration is handled via environment variables
 
 `EXCHANGE_NAME` - Name of the AMQP exchange to publish on (default *`hacron`*)
 
+`EXCHANGE_DURABLE` - Whether or not the publication exchange will be durable (default *`true`*)
+
 `LOCK_KEY` - Etcd key string for timer lock (default *`/locks/hacron`*)
 
 `CRON_TIME` - Crontab string for tick frequency (default is every minute)

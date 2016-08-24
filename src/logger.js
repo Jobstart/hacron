@@ -1,8 +1,12 @@
-import winston from 'winston';
+// @flow
 
-const logger = new (winston.Logger)({
+import { Logger, transports } from 'winston';
+
+const { Console } = transports;
+
+const logger: Logger = new Logger({
   transports: [
-    new (winston.transports.Console)({
+    new Console({
       timestamp: () => new Date().toISOString(),
       level: 'verbose',
       colorize: true

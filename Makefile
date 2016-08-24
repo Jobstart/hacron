@@ -4,6 +4,7 @@ SHELL := /bin/bash
 .FORCE:
 
 all: clean .FORCE
+	flow check
 	babel src -d lib
 	npm shrinkwrap --production
 	docker build -t jobstartinc/hacron:$(tag) .

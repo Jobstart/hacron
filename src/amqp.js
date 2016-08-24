@@ -1,3 +1,5 @@
+// @flow
+
 import amqplib from 'amqplib';
 
 import logger from './logger';
@@ -13,21 +15,21 @@ const opts = amqp ? {
   ca: amqp
 } : {};
 
-function handleConnectionError (e) {
+function handleConnectionError (e: Object) : void {
   logger.info('amqp connection error');
   console.trace(e);
   process.exit(1);
 }
 
-export function objectToBuffer (obj) {
+export function objectToBuffer (obj: Object): Buffer {
   return new Buffer(JSON.stringify(obj), 'utf8');
 }
 
-export function bufferToObject (buffer) {
+export function bufferToObject (buffer: Buffer): Object {
   return JSON.parse(buffer.toString('utf8'));
 }
 
-export default async function connect () {
+export default async function connect () : Promise <> {
   try {
     logger.info('creating amqp connection');
     const connection = await amqplib.connect(AMQP_URL, opts);

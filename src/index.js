@@ -1,3 +1,5 @@
+// @flow
+
 import 'source-map-support/register';
 
 import { CronJob } from 'cron';
@@ -16,7 +18,7 @@ import {
   CRON_TIME
 } from './environment';
 
-async function onTick (publish) {
+async function onTick (publish: Function): Promise <> {
   try {
     const d = new Date();
 
@@ -49,15 +51,15 @@ async function onTick (publish) {
   }
 }
 
-async function main () {
-  const publish = await connect();
+async function main (): Promise <> {
+  const publish: Function = await connect();
 
   logger.info(`running on cron time ${CRON_TIME}`);
 
-  const cronTime = CRON_TIME;
-  const start = true;
+  const cronTime: string = CRON_TIME;
+  const start: boolean = true;
 
-  const tick = new CronJob({
+  const tick: CronJob = new CronJob({
     cronTime,
     onTick: () => onTick(publish),
     start

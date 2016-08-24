@@ -1,12 +1,14 @@
+// @flow
+
 import fs from 'fs';
 
 import logger from './logger';
 
-const AMQP_SSL_PATH = '/opt/ssl/amqp.pem';
-const ETCD_SSL_PATH = '/opt/ssl/etcd.pem';
+const AMQP_SSL_PATH: string = '/opt/ssl/amqp.pem';
+const ETCD_SSL_PATH: string = '/opt/ssl/etcd.pem';
 
-let amqp = null;
-let etcd = null;
+let amqp: ?Buffer = null;
+let etcd: ?Buffer = null;
 
 try {
   amqp = fs.readFileSync(AMQP_SSL_PATH);
