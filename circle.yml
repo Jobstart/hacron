@@ -28,7 +28,6 @@ test:
     - sleep 5
     - curl "http://localhost:$MONITOR_PORT/monitor"
     - make test
-    - docker stop $CONTAINER
     - docker-compose stop || echo 'failed to bring down containers'
     - docker-compose rm -f || echo 'failed to remove containers'
 deployment:
