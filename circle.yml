@@ -25,6 +25,7 @@ test:
     - make tag=$CIRCLE_SHA1
     - docker-compose up -d
     - sleep 10
+    - docker ps
     - curl "http://localhost:$MONITOR_PORT/monitor"
     - make test
     - docker-compose stop || echo 'failed to bring down containers'
